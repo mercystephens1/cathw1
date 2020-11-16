@@ -1,0 +1,183 @@
+---
+title: "Categorical data homework 1"
+author: "mercy"
+date: "November 16, 2020"
+output: html_document
+---
+
+##  Question 1a
+Find and sketch the likelihood function. Give the ML estimate of pi
+
+```{r}
+
+n=20
+
+L = function(pi_,x){
+  term = (pi_^x)*((1-pi_)^(1-x))
+  return(prod(term))
+}
+
+x=rep(1,n)
+pi_ = seq(0,1,by=0.001)
+plot(pi_, sapply(pi_,L,x=x),type='l')
+abline(v = 1, col = "gray60")
+```
+
+## Question 1b 
+
+wald test and 95% CI
+wald test statistics =
+$$ z=  \hat \theta - \theta_0 / SE_0(\hat\theta)$$
+
+wald confidence interval =
+
+$$
+\hat \theta \pm z_{\alpha/2} SE(\hat \theta)
+$$
+The SE can be estimate by 
+
+$$
+\mathit{SE} = \sqrt \frac{\hat \theta(1-\hat \theta)}{n}
+$$
+
+Given that $\hat \theta = 1$  and $n=20$
+our SE will be equal to 
+
+$$
+\mathit{SE} = \sqrt \frac{1(1-1)}{20}
+$$
+This is not sensible and hence our wald test statistics as well as the confidence intervals willnot be sensible.
+
+## Question 1c
+score test and the corresponding p-value. Construct a 95% score confidence interval.
+The score Test statistic is given equating the second derivative of the likelihood to zero.
+Therefore we have that, 
+$$
+z = \frac{\hat \theta - \theta_0}{\sqrt { \theta_0(1- \theta_0)/n}}
+$$
+
+Therefore the the score test statistic equals
+$$
+z = \frac{1 - 0.5}{\sqrt { 0.5(1- 0.5)/20}} = 4.4721
+$$
+
+The p-value is given as
+```{r}
+2*pnorm(-abs(4.4721))
+```
+The ver small value of the p-value indicate that there is a statistically significance difference between the $\theta$ values from 0.5
+
+The CI is given by
+$$
+\hat \pi \Bigg(\frac{n}{n + z^2_{\alpha/2}} \Bigg)  
++ \frac{1}{2} \Bigg( \frac{ z^2_{\alpha/2}} {n + z^2_{\alpha/2} }           \Bigg) \\
+\pm z^2_{\alpha/} \sqrt {\frac{1}{n + z^2_{\alpha/2}} \bigg[  \hat \pi (1 - \hat\pi) \bigg(\frac{n}{n + z^2_{\alpha/2}}\bigg)+ \bigg(  \frac{1}{2}\bigg) \bigg(  \frac{1}{2}\bigg)\bigg( \frac{z^2_{\alpha/2}}{n+z^2_{\alpha/2}}  \bigg)        
+\bigg]}
+
+
+$$
+This results to....to be calculated or check below
+
+```{r}
+
+ prop.test
+ 
+ 
+```
+
+
+
+# 1d likelihood ratio test and its CI
+
+The likelihood ratio test statistic is given by 
+
+$$
+-2(L_0 - L_1) = 2\bigg( xlog\frac{\hat\pi}{\pi_0} + (n-x)log\frac{1-\hat\pi}{1-\pi_0} \bigg)
+
+$$
+12.0412
+The 95% likelihood ratio confidence interval is the set of $\pi_0 $ for which the likelihood ratio statistic
+$$
+-2(L_0 - L_1) \le X^2_1(0.05)
+$$
+```{r}
+1-pchisq (12.04, df = 1)
+```
+
+# question E
+Construct an exact binomial test and 95% confidence interval.
+check pclab1 for the test \\
+For the  95% CI
+
+# question 3 
+\begin(verbatim)
+attach(data)
+chisq <- chisq.test(data)
+chisq
+\end(verbatim)
+
+
+
+
+$$
+X-squared = 25.086, df = 4, p-value = 4.835e-05
+$$
+
+
+attach(data)
+chisq <- chisq.test(data)
+chisq
+the row and the column variables are statistically significantly associated (p-value < 0.05)
+
+\begin(verbatim)
+
+chisq$observed
+round(chisq$expected,2)
+#Pearson residuals
+round(chisq$residuals, 3)
+
+\end(verbatim)
+
+Because the chi sq statistics can only tell if there is an association between the two variables, we go further to do a pearson residual to check the strengh of the association.
+
+# Question 4a
+No, 11.4 is actually the ratio of odds and not the probabilities. In addition if these two this would be case if independence holds
+The right interpretation would be that the odds of survival for females was 11.4 times the odds for males.
+#4b 
+OR for survival , $\theta = 11.4$
+Odds for frmales who survived = 2.9
+
+Proportion for female adults who survived will be
+$$
+\frac {p_1}{1-p_1} = 2.9 \\
+p_1 = 2.9 (1-p_1)\\
+p_1 + 2.9p_1 = 2.9\\
+p_1 = 2.9/3.9 = 0.7436
+
+$$
+Proportion of males who survided will be 
+$$
+\theta = \frac {odds of females who survived}{odds of males who survived}\\
+11.4 = 2.9/ males who survived\\
+odds males who survived = 2.9/11.4 = 0.2544
+$$
+let p_2 be the propoetion of males who survived, 
+$$
+\frac{p_2}{1-p_2} = 0.2544\\
+p_2 = 0.2028
+
+
+$$
+
+
+
+
+
+
+
+
+
+
+
+ 
+
